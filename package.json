@@ -1,0 +1,16 @@
+{
+  "name": "phraser-web-client",
+  "version": "1.0.0",
+  "description": "Browser code for Phraser",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "author": "Yaroslav Volokhov",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}

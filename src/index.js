@@ -14,15 +14,19 @@ const init = () => {
   });
 
   ie.button.openSymbol.addEventListener('click', (event) => {
-    console.log('open symbol');
+    th.openNextSymbol();
   });
 
   ie.button.openWord.addEventListener('click', (event) => {
-    console.log('open word');
+    th.openNextWord();
   });
 
   ie.button.openSentence.addEventListener('click', (event) => {
-    console.log('open sentence');
+    th.openAll();
+  });
+
+  ie.input.answer.addEventListener('keyup', (event) => {
+    th.processFieldChange(event.keyCode);
   });
 };
 

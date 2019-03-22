@@ -3,17 +3,41 @@ import Tokenizer from './tokenizer';
 export default class Comparator {
   constructor() {
     this.tokenizer = new Tokenizer();
+    this.STATE_BLUE = '#436EEE';
+    this.STATE_RED = '#FF0000';
+    this.STATE_GREEN = '#008000';
   }
 
-  compareSentences(base, users) {
+  getState(base, users) {
+    const baseTokens = this.tokenizer.tokenizeSentence(base);
+    const usersTokens = this.tokenizer.tokenizeSentence(users);
+
+    if (baseTokens.length < usersTokens.length) {
+      return this.STATE_RED;
+    }
+
+    for (let idx = 0; idx < baseTokens.length; idx++) {
+      let baseToken = baseTokens[idx];
+      let usersToken = (idx < usersTokens.length) ? usersTokens[idx] : '';
+      let upperBaseToken = baseToken.toUpperCase();
+      let upperUsersToken = usersToken.toUpperCase();
+
+      if (upperBaseToken === upperUsersToken) {
+        continue;
+      }
+      return (upperBaseToken.indexOf(upperUsersToken) === 0)
+        ? this.STATE_BLUE : this.STATE_RED;
+    }
+    return this.STATE_GREEN;
+  }
+
+  getHints(base, users) {
     let addedSymbol = '';
     let addedWord = '';
     let addedAll = base;
 
     const baseTokens = this.tokenizer.tokenizeSentence(base);
     const usersTokens = this.tokenizer.tokenizeSentence(users);
-
-    console.log(baseTokens, usersTokens);
 
     for (let idx = 0; idx < baseTokens.length; idx++) {
       let baseToken = baseTokens[idx];

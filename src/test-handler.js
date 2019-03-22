@@ -17,10 +17,40 @@ export default class TestHandler {
   }
 
   answer() {
+    //
+  }
+
+  openNextSymbol() {
+    this._updateFieldValueFromHint('addedSymbol');
+    this._updateFieldColor();
+  }
+
+  openNextWord() {
+    this._updateFieldValueFromHint('addedWord');
+    this._updateFieldColor();
+  }
+
+  openAll() {
+    this._updateFieldValueFromHint('addedAll');
+    this._updateFieldColor();
+  }
+
+  processFieldChange(keyCode) {
+    this._updateFieldColor();
+  }
+
+  _updateFieldValueFromHint(key) {
     let baseSentence = this.questions[this.questionIndex].phrase;
     let usersSentence = this.ie.input.answer.value;
-    let result = this.comparator.compareSentences(baseSentence, usersSentence);
-    console.log(result);
+    let hints = this.comparator.getHints(baseSentence, usersSentence);
+    this.ie.input.answer.value = hints[key];
+  }
+
+  _updateFieldColor() {
+    let baseSentence = this.questions[this.questionIndex].phrase;
+    let usersSentence = this.ie.input.answer.value;
+    let state = this.comparator.getState(baseSentence, usersSentence);
+    this.ie.input.answer.style.color = state;
   }
 
   _start(xhr) {

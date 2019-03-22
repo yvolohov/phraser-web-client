@@ -4,7 +4,7 @@ export default class TestHandler {
   constructor(ie) {
     this.comparator = new Comparator();
     this.ie = ie;
-    this.root = 'http://localhost:8000';
+    this.root = '';
     this.questions = [];
     this.questionIndex = -1;
   }
@@ -17,11 +17,25 @@ export default class TestHandler {
   }
 
   answer() {
+    let sentenceId = this.questions[this.questionIndex].id;
     let baseSentence = this.questions[this.questionIndex].phrase;
     let usersSentence = this.ie.input.answer.value;
     let state = this.comparator.getState(baseSentence, usersSentence);
+    let _update = function (xhr) {
+      if (xhr.readyState !== 4) {
+        return;
+      }
+
+      if (xhr.status !== 200) {
+        console.log(xhr.status + ': ' + xhr.responseText);
+      }
+    };
 
     if (state === this.comparator.STATE_GREEN) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', `${this.root}/api/phrases/${sentenceId}`, true);
+      xhr.send();
+      xhr.onreadystatechange = _update.bind(this, xhr);
       this._next();
     }
     this.ie.input.answer.focus();
@@ -98,7 +112,13 @@ export default class TestHandler {
   }
 
   _end() {
-
+    this.ie.div.question.innerText = 'Test is passed !!!';
+    this.ie.input.answer.value = '';
+    this.ie.input.answer.setAttribute('disabled', 'disabled');
+    this.ie.button.answer.setAttribute('disabled', 'disabled');
+    this.ie.button.openSymbol.setAttribute('disabled', 'disabled');
+    this.ie.button.openWord.setAttribute('disabled', 'disabled');
+    this.ie.button.openSentence.setAttribute('disabled', 'disabled');
   }
 
   _updateFieldValueFromHint(key) {
@@ -113,7 +133,7 @@ export default class TestHandler {
     let usersSentence = this.ie.input.answer.value;
     let state = this.comparator.getState(baseSentence, usersSentence);
     this.ie.input.answer.style.color = state;
-  }  
+  }
 
   _setVisibility(elements, status) {
     for (let element of elements) {

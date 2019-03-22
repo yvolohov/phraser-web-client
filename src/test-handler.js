@@ -17,7 +17,23 @@ export default class TestHandler {
   }
 
   answer() {
-    //
+    let baseSentence = this.questions[this.questionIndex].phrase;
+    let usersSentence = this.ie.input.answer.value;
+    let state = this.comparator.getState(baseSentence, usersSentence);
+
+    if (state === this.comparator.STATE_GREEN) {
+      this._next();
+    }
+    this.ie.input.answer.focus();
+  }
+
+  processFieldChange(keyCode) {
+    this._updateFieldColor();
+
+    if (keyCode !== 13) {
+      return;
+    }
+    this.answer();
   }
 
   openNextSymbol() {
@@ -33,24 +49,6 @@ export default class TestHandler {
   openAll() {
     this._updateFieldValueFromHint('addedAll');
     this._updateFieldColor();
-  }
-
-  processFieldChange(keyCode) {
-    this._updateFieldColor();
-  }
-
-  _updateFieldValueFromHint(key) {
-    let baseSentence = this.questions[this.questionIndex].phrase;
-    let usersSentence = this.ie.input.answer.value;
-    let hints = this.comparator.getHints(baseSentence, usersSentence);
-    this.ie.input.answer.value = hints[key];
-  }
-
-  _updateFieldColor() {
-    let baseSentence = this.questions[this.questionIndex].phrase;
-    let usersSentence = this.ie.input.answer.value;
-    let state = this.comparator.getState(baseSentence, usersSentence);
-    this.ie.input.answer.style.color = state;
   }
 
   _start(xhr) {
@@ -96,11 +94,26 @@ export default class TestHandler {
     this.ie.div.progress.innerText = progress;
     this.ie.div.question.innerText = question;
     this.ie.input.answer.value = '';
+    this._updateFieldColor();
   }
 
   _end() {
 
   }
+
+  _updateFieldValueFromHint(key) {
+    let baseSentence = this.questions[this.questionIndex].phrase;
+    let usersSentence = this.ie.input.answer.value;
+    let hints = this.comparator.getHints(baseSentence, usersSentence);
+    this.ie.input.answer.value = hints[key];
+  }
+
+  _updateFieldColor() {
+    let baseSentence = this.questions[this.questionIndex].phrase;
+    let usersSentence = this.ie.input.answer.value;
+    let state = this.comparator.getState(baseSentence, usersSentence);
+    this.ie.input.answer.style.color = state;
+  }  
 
   _setVisibility(elements, status) {
     for (let element of elements) {

@@ -53,16 +53,19 @@ export default class TestHandler {
   openNextSymbol() {
     this._updateFieldValueFromHint('addedSymbol');
     this._updateFieldColor();
+    this.ie.input.answer.focus();
   }
 
   openNextWord() {
     this._updateFieldValueFromHint('addedWord');
     this._updateFieldColor();
+    this.ie.input.answer.focus();
   }
 
   openAll() {
     this._updateFieldValueFromHint('addedAll');
     this._updateFieldColor();
+    this.ie.input.answer.focus();
   }
 
   _start(xhr) {

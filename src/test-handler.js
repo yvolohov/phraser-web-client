@@ -17,8 +17,10 @@ export default class TestHandler {
   }
 
   answer() {
-    //const tokens = this.tokenizer.tokenizeSentence(this.ie.input.answer.value);
-    //console.log(tokens);
+    let baseSentence = this.questions[this.questionIndex].phrase;
+    let usersSentence = this.ie.input.answer.value;
+    let result = this.comparator.compareSentences(baseSentence, usersSentence);
+    console.log(result);
   }
 
   _start(xhr) {

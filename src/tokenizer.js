@@ -8,9 +8,9 @@ export default class Tokenizer {
 
   tokenizeSentence(sentence) {
     let tokens = [];
-    let token = '';
     let isDivider = false;
     let tsentence = sentence.trim();
+    let token = tsentence.substr(0, 1);
 
     for (let idx = 1; idx < tsentence.length; idx++) {
       let previousSymbol = tsentence.substr(idx - 1, 1);
@@ -25,7 +25,7 @@ export default class Tokenizer {
       }
 
       if (currentSymbolType > 0) {
-        token += ((idx === 1) ? previousSymbol + currentSymbol : currentSymbol);
+        token += currentSymbol;
         isDivider = false;
       }
     }

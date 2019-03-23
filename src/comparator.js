@@ -22,9 +22,17 @@ export default class Comparator {
       let upperBaseToken = baseToken.toUpperCase();
       let upperUsersToken = usersToken.toUpperCase();
 
+      /* base token isn't equal users token */
       if (upperBaseToken === upperUsersToken) {
         continue;
       }
+
+      /* this is not a last users token so it's wrong in any case */
+      if (idx < usersTokens.length - 1) {
+        return this.STATE_RED;
+      }
+
+      /* check if the last users token isn't finished */
       return (upperBaseToken.indexOf(upperUsersToken) === 0)
         ? this.STATE_BLUE : this.STATE_RED;
     }

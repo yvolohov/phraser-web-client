@@ -9,6 +9,10 @@ const init = () => {
     th.startTest();
   });
 
+  ie.button.startByStudied.addEventListener('click', (event) => {
+    th.startTestByStudied();
+  });
+
   ie.button.answer.addEventListener('click', (event) => {
     th.answer();
   });

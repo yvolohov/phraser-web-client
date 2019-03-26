@@ -16,6 +16,13 @@ export default class TestHandler {
     xhr.onreadystatechange = this._start.bind(this, xhr);
   }
 
+  startTestByStudied() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `${this.root}/api/studied`, true);
+    xhr.send();
+    xhr.onreadystatechange = this._start.bind(this, xhr);
+  }
+
   answer() {
     let sentenceId = this.questions[this.questionIndex].id;
     let baseSentence = this.questions[this.questionIndex].phrase;

@@ -2,6 +2,7 @@ export default () => {
   return {
     button: {
       start: document.getElementById('button-start'),
+      startByStudied: document.getElementById('button-start-by-studied'),
       answer: document.getElementById('button-answer'),
       openSymbol: document.getElementById('button-open-symbol'),
       openWord: document.getElementById('button-open-word'),
